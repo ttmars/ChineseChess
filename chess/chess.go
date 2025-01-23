@@ -9,6 +9,7 @@ import (
 )
 
 var Cell float32
+var Border float32
 
 type Config struct {
 	Cell            float32 // 棋子间距
@@ -29,13 +30,17 @@ type Chess struct {
 	// 棋盘面板
 	ChessContainer *fyne.Container
 	ChessBoard     *canvas.Rectangle
+
+	// 棋子
+	Piece [9][10]*Piece
 }
 
 func InitConfig() *Config {
 	Cell = 50
+	Border = 40
 	return &Config{
-		Cell:            50,
-		Border:          40,
+		Cell:            Cell,
+		Border:          Border,
 		LineStrokeWidth: 1,
 	}
 }
@@ -64,10 +69,12 @@ func (chess *Chess) CreateChessBoard() {
 	LineContainer := chess.DrawLine()
 
 	// 棋子
+	chess.Piece[0][0] = NewPiece("車", color.Black, 0, 0, 30, 30)
 
 	// 容器
 	ChessContainer := container.NewWithoutLayout(
 		ChessBoard, LineContainer,
+		chess.Piece[0][0],
 	)
 	ChessContainer.Resize(fyne.NewSize(700, 600))
 	ChessContainer.Move(fyne.NewPos(300, 0))

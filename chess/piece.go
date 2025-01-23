@@ -37,11 +37,11 @@ func NewPiece(name string, fontColor color.Color, x, y int, w, h float32) *Piece
 // SetPosition 移动棋子
 func (c *Piece) SetPosition(x int, y int, addAnimation bool) {
 	if addAnimation {
-		canvas.NewPositionAnimation(fyne.Position{X: float32(c.X) * Cell, Y: float32(c.Y) * Cell}, fyne.Position{X: float32(x) * Cell, Y: float32(y) * Cell}, time.Millisecond*500, c.Move).Start()
+		canvas.NewPositionAnimation(fyne.Position{X: Border + float32(c.X)*Cell, Y: Border + float32(c.Y)*Cell}, fyne.Position{X: Border + float32(x)*Cell, Y: Border + float32(y)*Cell}, time.Millisecond*500, c.Move).Start()
 	} else {
 		c.Move(fyne.Position{
-			X: float32(x) * Cell,
-			Y: float32(y) * Cell,
+			X: Border + float32(x)*Cell,
+			Y: Border + float32(y)*Cell,
 		})
 	}
 	c.X = x
