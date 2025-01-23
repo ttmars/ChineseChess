@@ -8,6 +8,8 @@ import (
 	"image/color"
 )
 
+var Cell float32
+
 type Config struct {
 	Cell            float32 // 棋子间距
 	Border          float32 // 边框间距
@@ -30,6 +32,7 @@ type Chess struct {
 }
 
 func InitConfig() *Config {
+	Cell = 50
 	return &Config{
 		Cell:            50,
 		Border:          40,
@@ -38,37 +41,50 @@ func InitConfig() *Config {
 }
 
 func NewChess() *Chess {
-	chess := &Chess{Config: InitConfig()}
 	app := app.New()
 	MainWindow := app.NewWindow("MainWindow")
 	MainWindow.Resize(fyne.NewSize(800, 600))
+	chess := &Chess{Config: InitConfig(), App: app, MainWindow: MainWindow}
 
 	// 聊天面板
+	chess.CreateChatBoard()
+	// 棋盘面板
+	chess.CreateChessBoard()
+
+	MainWindow.SetContent(container.NewWithoutLayout(chess.ChatContainer, chess.ChessContainer))
+	return chess
+}
+
+// CreateChessBoard 创建棋盘面板
+func (chess *Chess) CreateChessBoard() {
+	ChessBoard := canvas.NewRectangle(Yellow)
+	ChessBoard.Resize(fyne.NewSize(700, 600))
+
+	// 棋盘
+	LineContainer := chess.DrawLine()
+
+	// 棋子
+
+	// 容器
+	ChessContainer := container.NewWithoutLayout(
+		ChessBoard, LineContainer,
+	)
+	ChessContainer.Resize(fyne.NewSize(700, 600))
+	ChessContainer.Move(fyne.NewPos(300, 0))
+
+	chess.ChessBoard = ChessBoard
+	chess.ChessContainer = ChessContainer
+}
+
+// CreateChatBoard 创建聊天面板
+func (chess *Chess) CreateChatBoard() {
 	ChatBoard := canvas.NewRectangle(color.Black)
 	ChatBoard.Resize(fyne.NewSize(300, 600))
 	ChatContainer := container.NewWithoutLayout(ChatBoard)
 	ChatContainer.Resize(fyne.NewSize(300, 600))
 
-	// 棋盘面板
-	ChessBoard := canvas.NewRectangle(Yellow)
-	ChessBoard.Resize(fyne.NewSize(700, 600))
-	LineContainer := chess.DrawLine()
-	ChessContainer := container.NewWithoutLayout(
-		ChessBoard, LineContainer,
-	)
-
-	ChessContainer.Resize(fyne.NewSize(700, 600))
-	ChessContainer.Move(fyne.NewPos(300, 0))
-
-	MainWindow.SetContent(container.NewWithoutLayout(ChatContainer, ChessContainer))
-
-	chess.App = app
-	chess.MainWindow = MainWindow
-	chess.ChatContainer = ChessContainer
 	chess.ChatBoard = ChatBoard
-	chess.ChessContainer = ChessContainer
-	chess.ChessBoard = ChessBoard
-	return chess
+	chess.ChatContainer = ChatContainer
 }
 
 // DrawLine 画棋盘
