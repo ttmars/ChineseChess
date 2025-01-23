@@ -69,12 +69,14 @@ func (chess *Chess) CreateChessBoard() {
 	LineContainer := chess.DrawLine()
 
 	// 棋子
-	chess.Piece[0][0] = NewPiece("車", color.Black, 0, 0, 30, 30)
+	chess.Piece[0][0] = NewPiece("車", color.Black, 0, 0, 42, 42)
+	chess.Piece[1][0] = NewPiece("馬", color.Black, 1, 0, 42, 42)
 
 	// 容器
 	ChessContainer := container.NewWithoutLayout(
 		ChessBoard, LineContainer,
 		chess.Piece[0][0],
+		chess.Piece[1][0],
 	)
 	ChessContainer.Resize(fyne.NewSize(700, 600))
 	ChessContainer.Move(fyne.NewPos(300, 0))

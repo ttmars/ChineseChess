@@ -15,7 +15,7 @@ func main() {
 
 	chess.Cell = 50
 	chessPiece := chess.NewPiece("帥", color.Black, 3, 3, 60, 60)
-	chessPiece.SetPosition(0, 0, true)
+	chessPiece.SetPosition(0, 0, 60, true)
 
 	c := container.NewWithoutLayout(chessPiece)
 	c.Resize(fyne.NewSize(400, 400))
