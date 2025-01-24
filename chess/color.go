@@ -4,7 +4,7 @@ import (
 	"image/color"
 )
 
-var Red = color.NRGBA{R: 0xff, A: 0xff}
+var Red = color.RGBA{R: 0xA6, G: 0x1A, B: 0x00, A: 255}
 var Blue = color.NRGBA{B: 0xff, A: 0xff}
 var Yellow = color.RGBA{R: 0xE1, G: 0xC6, B: 0x91, A: 255}
 var PiecePad = color.RGBA{R: 0x84, G: 0x48, B: 0x00, A: 255}

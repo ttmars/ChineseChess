@@ -51,7 +51,7 @@ func (c *Piece) SetPosition(x int, y int, size float32, addAnimation bool) {
 func (c *Piece) CreateRenderer() fyne.WidgetRenderer {
 	circle := canvas.NewCircle(PieceBorder)
 	circle.StrokeColor = PiecePad
-	circle.StrokeWidth = 3
+	circle.StrokeWidth = PieceStrokeWidth
 
 	text := canvas.NewText(c.Name, c.FontColor)
 	text.Alignment = fyne.TextAlignCenter

@@ -8,17 +8,14 @@ import (
 	"image/color"
 )
 
-var Cell float32
-var Border float32
-
-type Config struct {
-	Cell            float32 // 棋子间距
-	Border          float32 // 边框间距
-	LineStrokeWidth float32 // 线条宽度
-}
+var Cell float32 = 50            // 棋盘格子大小
+var Border float32 = 40          // 棋盘边框大小
+var LineStrokeWidth float32 = 1  // 棋盘线条大小
+var PieceSize float32 = 43       // 棋子大小
+var PieceStrokeWidth float32 = 3 // 棋子边框大小
 
 type Chess struct {
-	*Config
+	//*Config
 	App fyne.App
 
 	MainWindow fyne.Window
@@ -35,21 +32,11 @@ type Chess struct {
 	Piece [9][10]*Piece
 }
 
-func InitConfig() *Config {
-	Cell = 50
-	Border = 40
-	return &Config{
-		Cell:            Cell,
-		Border:          Border,
-		LineStrokeWidth: 1,
-	}
-}
-
 func NewChess() *Chess {
 	app := app.New()
 	MainWindow := app.NewWindow("MainWindow")
 	MainWindow.Resize(fyne.NewSize(800, 600))
-	chess := &Chess{Config: InitConfig(), App: app, MainWindow: MainWindow}
+	chess := &Chess{App: app, MainWindow: MainWindow}
 
 	// 聊天面板
 	chess.CreateChatBoard()
@@ -69,14 +56,11 @@ func (chess *Chess) CreateChessBoard() {
 	LineContainer := chess.DrawLine()
 
 	// 棋子
-	chess.Piece[0][0] = NewPiece("車", color.Black, 0, 0, 42, 42)
-	chess.Piece[1][0] = NewPiece("馬", color.Black, 1, 0, 42, 42)
+	PieceContainer := chess.DrawPiece()
 
 	// 容器
 	ChessContainer := container.NewWithoutLayout(
-		ChessBoard, LineContainer,
-		chess.Piece[0][0],
-		chess.Piece[1][0],
+		ChessBoard, LineContainer, PieceContainer,
 	)
 	ChessContainer.Resize(fyne.NewSize(700, 600))
 	ChessContainer.Move(fyne.NewPos(300, 0))
@@ -96,45 +80,91 @@ func (chess *Chess) CreateChatBoard() {
 	chess.ChatContainer = ChatContainer
 }
 
+// DrawPiece 画棋子
+func (chess *Chess) DrawPiece() *fyne.Container {
+	chess.Piece[0][0] = NewPiece("車", color.Black, 0, 0, PieceSize, PieceSize)
+	chess.Piece[1][0] = NewPiece("馬", color.Black, 1, 0, PieceSize, PieceSize)
+	chess.Piece[2][0] = NewPiece("象", color.Black, 2, 0, PieceSize, PieceSize)
+	chess.Piece[3][0] = NewPiece("士", color.Black, 3, 0, PieceSize, PieceSize)
+	chess.Piece[4][0] = NewPiece("將", color.Black, 4, 0, PieceSize, PieceSize)
+	chess.Piece[5][0] = NewPiece("士", color.Black, 5, 0, PieceSize, PieceSize)
+	chess.Piece[6][0] = NewPiece("象", color.Black, 6, 0, PieceSize, PieceSize)
+	chess.Piece[7][0] = NewPiece("馬", color.Black, 7, 0, PieceSize, PieceSize)
+	chess.Piece[8][0] = NewPiece("車", color.Black, 8, 0, PieceSize, PieceSize)
+	chess.Piece[1][2] = NewPiece("炮", color.Black, 1, 2, PieceSize, PieceSize)
+	chess.Piece[7][2] = NewPiece("炮", color.Black, 7, 2, PieceSize, PieceSize)
+	chess.Piece[0][3] = NewPiece("卒", color.Black, 0, 3, PieceSize, PieceSize)
+	chess.Piece[2][3] = NewPiece("卒", color.Black, 2, 3, PieceSize, PieceSize)
+	chess.Piece[4][3] = NewPiece("卒", color.Black, 4, 3, PieceSize, PieceSize)
+	chess.Piece[6][3] = NewPiece("卒", color.Black, 6, 3, PieceSize, PieceSize)
+	chess.Piece[8][3] = NewPiece("卒", color.Black, 8, 3, PieceSize, PieceSize)
+
+	chess.Piece[0][9] = NewPiece("車", Red, 0, 9, PieceSize, PieceSize)
+	chess.Piece[1][9] = NewPiece("馬", Red, 1, 9, PieceSize, PieceSize)
+	chess.Piece[2][9] = NewPiece("相", Red, 2, 9, PieceSize, PieceSize)
+	chess.Piece[3][9] = NewPiece("仕", Red, 3, 9, PieceSize, PieceSize)
+	chess.Piece[4][9] = NewPiece("帥", Red, 4, 9, PieceSize, PieceSize)
+	chess.Piece[5][9] = NewPiece("仕", Red, 5, 9, PieceSize, PieceSize)
+	chess.Piece[6][9] = NewPiece("相", Red, 6, 9, PieceSize, PieceSize)
+	chess.Piece[7][9] = NewPiece("馬", Red, 7, 9, PieceSize, PieceSize)
+	chess.Piece[8][9] = NewPiece("車", Red, 8, 9, PieceSize, PieceSize)
+	chess.Piece[1][7] = NewPiece("炮", Red, 1, 7, PieceSize, PieceSize)
+	chess.Piece[7][7] = NewPiece("炮", Red, 7, 7, PieceSize, PieceSize)
+	chess.Piece[0][6] = NewPiece("兵", Red, 0, 6, PieceSize, PieceSize)
+	chess.Piece[2][6] = NewPiece("兵", Red, 2, 6, PieceSize, PieceSize)
+	chess.Piece[4][6] = NewPiece("兵", Red, 4, 6, PieceSize, PieceSize)
+	chess.Piece[6][6] = NewPiece("兵", Red, 6, 6, PieceSize, PieceSize)
+	chess.Piece[8][6] = NewPiece("兵", Red, 8, 6, PieceSize, PieceSize)
+
+	var Pieces []fyne.CanvasObject
+	for _, v := range chess.Piece {
+		for _, vv := range v {
+			if vv != nil {
+				Pieces = append(Pieces, vv)
+			}
+		}
+	}
+	return container.NewWithoutLayout(Pieces...)
+}
+
 // DrawLine 画棋盘
 func (chess *Chess) DrawLine() *fyne.Container {
-	// 水平线
-	hor0 := NewLine(chess.Border, chess.Border+chess.Cell*0, chess.Border+chess.Cell*8, chess.Border+chess.Cell*0, chess.LineStrokeWidth*2, color.Black)
-	hor1 := NewLine(chess.Border, chess.Border+chess.Cell*1, chess.Border+chess.Cell*8, chess.Border+chess.Cell*1, chess.LineStrokeWidth, color.Black)
-	hor2 := NewLine(chess.Border, chess.Border+chess.Cell*2, chess.Border+chess.Cell*8, chess.Border+chess.Cell*2, chess.LineStrokeWidth, color.Black)
-	hor3 := NewLine(chess.Border, chess.Border+chess.Cell*3, chess.Border+chess.Cell*8, chess.Border+chess.Cell*3, chess.LineStrokeWidth, color.Black)
-	hor4 := NewLine(chess.Border, chess.Border+chess.Cell*4, chess.Border+chess.Cell*8, chess.Border+chess.Cell*4, chess.LineStrokeWidth, color.Black)
-	hor5 := NewLine(chess.Border, chess.Border+chess.Cell*5, chess.Border+chess.Cell*8, chess.Border+chess.Cell*5, chess.LineStrokeWidth, color.Black)
-	hor6 := NewLine(chess.Border, chess.Border+chess.Cell*6, chess.Border+chess.Cell*8, chess.Border+chess.Cell*6, chess.LineStrokeWidth, color.Black)
-	hor7 := NewLine(chess.Border, chess.Border+chess.Cell*7, chess.Border+chess.Cell*8, chess.Border+chess.Cell*7, chess.LineStrokeWidth, color.Black)
-	hor8 := NewLine(chess.Border, chess.Border+chess.Cell*8, chess.Border+chess.Cell*8, chess.Border+chess.Cell*8, chess.LineStrokeWidth, color.Black)
-	hor9 := NewLine(chess.Border, chess.Border+chess.Cell*9, chess.Border+chess.Cell*8, chess.Border+chess.Cell*9, chess.LineStrokeWidth*2, color.Black)
+	hor0 := NewLine(Border, Border+Cell*0, Border+Cell*8, Border+Cell*0, LineStrokeWidth*2, color.Black)
+	hor1 := NewLine(Border, Border+Cell*1, Border+Cell*8, Border+Cell*1, LineStrokeWidth, color.Black)
+	hor2 := NewLine(Border, Border+Cell*2, Border+Cell*8, Border+Cell*2, LineStrokeWidth, color.Black)
+	hor3 := NewLine(Border, Border+Cell*3, Border+Cell*8, Border+Cell*3, LineStrokeWidth, color.Black)
+	hor4 := NewLine(Border, Border+Cell*4, Border+Cell*8, Border+Cell*4, LineStrokeWidth, color.Black)
+	hor5 := NewLine(Border, Border+Cell*5, Border+Cell*8, Border+Cell*5, LineStrokeWidth, color.Black)
+	hor6 := NewLine(Border, Border+Cell*6, Border+Cell*8, Border+Cell*6, LineStrokeWidth, color.Black)
+	hor7 := NewLine(Border, Border+Cell*7, Border+Cell*8, Border+Cell*7, LineStrokeWidth, color.Black)
+	hor8 := NewLine(Border, Border+Cell*8, Border+Cell*8, Border+Cell*8, LineStrokeWidth, color.Black)
+	hor9 := NewLine(Border, Border+Cell*9, Border+Cell*8, Border+Cell*9, LineStrokeWidth*2, color.Black)
 
 	// 垂直线
-	ver0 := NewLine(chess.Border, chess.Border, chess.Border, chess.Border+chess.Cell*9, chess.LineStrokeWidth*2, color.Black)
-	ver8 := NewLine(chess.Border+chess.Cell*8, chess.Border, chess.Border+chess.Cell*8, chess.Border+chess.Cell*9, chess.LineStrokeWidth*2, color.Black)
+	ver0 := NewLine(Border, Border, Border, Border+Cell*9, LineStrokeWidth*2, color.Black)
+	ver8 := NewLine(Border+Cell*8, Border, Border+Cell*8, Border+Cell*9, LineStrokeWidth*2, color.Black)
 
-	ver1 := NewLine(chess.Border+chess.Cell*1, chess.Border, chess.Border+chess.Cell*1, chess.Border+chess.Cell*4, chess.LineStrokeWidth, color.Black)
-	ver2 := NewLine(chess.Border+chess.Cell*2, chess.Border, chess.Border+chess.Cell*2, chess.Border+chess.Cell*4, chess.LineStrokeWidth, color.Black)
-	ver3 := NewLine(chess.Border+chess.Cell*3, chess.Border, chess.Border+chess.Cell*3, chess.Border+chess.Cell*4, chess.LineStrokeWidth, color.Black)
-	ver4 := NewLine(chess.Border+chess.Cell*4, chess.Border, chess.Border+chess.Cell*4, chess.Border+chess.Cell*4, chess.LineStrokeWidth, color.Black)
-	ver5 := NewLine(chess.Border+chess.Cell*5, chess.Border, chess.Border+chess.Cell*5, chess.Border+chess.Cell*4, chess.LineStrokeWidth, color.Black)
-	ver6 := NewLine(chess.Border+chess.Cell*6, chess.Border, chess.Border+chess.Cell*6, chess.Border+chess.Cell*4, chess.LineStrokeWidth, color.Black)
-	ver7 := NewLine(chess.Border+chess.Cell*7, chess.Border, chess.Border+chess.Cell*7, chess.Border+chess.Cell*4, chess.LineStrokeWidth, color.Black)
+	ver1 := NewLine(Border+Cell*1, Border, Border+Cell*1, Border+Cell*4, LineStrokeWidth, color.Black)
+	ver2 := NewLine(Border+Cell*2, Border, Border+Cell*2, Border+Cell*4, LineStrokeWidth, color.Black)
+	ver3 := NewLine(Border+Cell*3, Border, Border+Cell*3, Border+Cell*4, LineStrokeWidth, color.Black)
+	ver4 := NewLine(Border+Cell*4, Border, Border+Cell*4, Border+Cell*4, LineStrokeWidth, color.Black)
+	ver5 := NewLine(Border+Cell*5, Border, Border+Cell*5, Border+Cell*4, LineStrokeWidth, color.Black)
+	ver6 := NewLine(Border+Cell*6, Border, Border+Cell*6, Border+Cell*4, LineStrokeWidth, color.Black)
+	ver7 := NewLine(Border+Cell*7, Border, Border+Cell*7, Border+Cell*4, LineStrokeWidth, color.Black)
 
-	ver11 := NewLine(chess.Border+chess.Cell*1, chess.Border+chess.Cell*5, chess.Border+chess.Cell*1, chess.Border+chess.Cell*9, chess.LineStrokeWidth, color.Black)
-	ver22 := NewLine(chess.Border+chess.Cell*2, chess.Border+chess.Cell*5, chess.Border+chess.Cell*2, chess.Border+chess.Cell*9, chess.LineStrokeWidth, color.Black)
-	ver33 := NewLine(chess.Border+chess.Cell*3, chess.Border+chess.Cell*5, chess.Border+chess.Cell*3, chess.Border+chess.Cell*9, chess.LineStrokeWidth, color.Black)
-	ver44 := NewLine(chess.Border+chess.Cell*4, chess.Border+chess.Cell*5, chess.Border+chess.Cell*4, chess.Border+chess.Cell*9, chess.LineStrokeWidth, color.Black)
-	ver55 := NewLine(chess.Border+chess.Cell*5, chess.Border+chess.Cell*5, chess.Border+chess.Cell*5, chess.Border+chess.Cell*9, chess.LineStrokeWidth, color.Black)
-	ver66 := NewLine(chess.Border+chess.Cell*6, chess.Border+chess.Cell*5, chess.Border+chess.Cell*6, chess.Border+chess.Cell*9, chess.LineStrokeWidth, color.Black)
-	ver77 := NewLine(chess.Border+chess.Cell*7, chess.Border+chess.Cell*5, chess.Border+chess.Cell*7, chess.Border+chess.Cell*9, chess.LineStrokeWidth, color.Black)
+	ver11 := NewLine(Border+Cell*1, Border+Cell*5, Border+Cell*1, Border+Cell*9, LineStrokeWidth, color.Black)
+	ver22 := NewLine(Border+Cell*2, Border+Cell*5, Border+Cell*2, Border+Cell*9, LineStrokeWidth, color.Black)
+	ver33 := NewLine(Border+Cell*3, Border+Cell*5, Border+Cell*3, Border+Cell*9, LineStrokeWidth, color.Black)
+	ver44 := NewLine(Border+Cell*4, Border+Cell*5, Border+Cell*4, Border+Cell*9, LineStrokeWidth, color.Black)
+	ver55 := NewLine(Border+Cell*5, Border+Cell*5, Border+Cell*5, Border+Cell*9, LineStrokeWidth, color.Black)
+	ver66 := NewLine(Border+Cell*6, Border+Cell*5, Border+Cell*6, Border+Cell*9, LineStrokeWidth, color.Black)
+	ver77 := NewLine(Border+Cell*7, Border+Cell*5, Border+Cell*7, Border+Cell*9, LineStrokeWidth, color.Black)
 
 	// 九宫线
-	slash1 := NewLine(chess.Border+chess.Cell*3, chess.Border, chess.Border+chess.Cell*5, chess.Border+chess.Cell*2, chess.LineStrokeWidth*0.5, color.Black)
-	slash2 := NewLine(chess.Border+chess.Cell*5, chess.Border, chess.Border+chess.Cell*3, chess.Border+chess.Cell*2, chess.LineStrokeWidth*0.5, color.Black)
-	slash3 := NewLine(chess.Border+chess.Cell*3, chess.Border+chess.Cell*9, chess.Border+chess.Cell*5, chess.Border+chess.Cell*7, chess.LineStrokeWidth*0.5, color.Black)
-	slash4 := NewLine(chess.Border+chess.Cell*3, chess.Border+chess.Cell*7, chess.Border+chess.Cell*5, chess.Border+chess.Cell*9, chess.LineStrokeWidth*0.5, color.Black)
+	slash1 := NewLine(Border+Cell*3, Border, Border+Cell*5, Border+Cell*2, LineStrokeWidth*0.5, color.Black)
+	slash2 := NewLine(Border+Cell*5, Border, Border+Cell*3, Border+Cell*2, LineStrokeWidth*0.5, color.Black)
+	slash3 := NewLine(Border+Cell*3, Border+Cell*9, Border+Cell*5, Border+Cell*7, LineStrokeWidth*0.5, color.Black)
+	slash4 := NewLine(Border+Cell*3, Border+Cell*7, Border+Cell*5, Border+Cell*9, LineStrokeWidth*0.5, color.Black)
 
 	return container.NewWithoutLayout(
 		hor0, hor1, hor2, hor3, hor4, hor5, hor6, hor7, hor8, hor9,
