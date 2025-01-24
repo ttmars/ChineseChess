@@ -1,6 +1,7 @@
 package chess
 
 import (
+	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/widget"
@@ -90,3 +91,14 @@ func (r *chessPieceRenderer) Objects() []fyne.CanvasObject {
 }
 
 func (r *chessPieceRenderer) Destroy() {}
+
+// Tapped 实现 Tappable 接口
+func (c *Piece) Tapped(event *fyne.PointEvent) {
+	// 处理左键点击事件
+	fmt.Println("左键点击", c.Name)
+}
+
+func (c *Piece) TappedSecondary(event *fyne.PointEvent) {
+	// 处理右键点击事件
+	fmt.Println("右键点击", c.Name)
+}
