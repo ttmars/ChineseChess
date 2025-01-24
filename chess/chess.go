@@ -6,16 +6,16 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"image/color"
+	"time"
 )
 
 var Cell float32 = 50            // 棋盘格子大小
 var Border float32 = 40          // 棋盘边框大小
 var LineStrokeWidth float32 = 1  // 棋盘线条大小
-var PieceSize float32 = 43       // 棋子大小
+var PieceSize float32 = 45       // 棋子大小
 var PieceStrokeWidth float32 = 3 // 棋子边框大小
 
 type Chess struct {
-	//*Config
 	App fyne.App
 
 	MainWindow fyne.Window
@@ -42,6 +42,11 @@ func NewChess() *Chess {
 	chess.CreateChatBoard()
 	// 棋盘面板
 	chess.CreateChessBoard()
+
+	go func() {
+		time.Sleep(time.Second * 1)
+		chess.Piece[7][9].SetPosition(6, 7, true)
+	}()
 
 	MainWindow.SetContent(container.NewWithoutLayout(chess.ChatContainer, chess.ChessContainer))
 	return chess

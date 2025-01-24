@@ -30,18 +30,22 @@ func NewPiece(name string, fontColor color.Color, x, y int, w, h float32) *Piece
 
 	piece.ExtendBaseWidget(piece)
 	piece.Resize(fyne.NewSize(piece.W, piece.H))
-	piece.SetPosition(x, y, w, false)
+	piece.SetPosition(x, y, false)
 	return piece
 }
 
 // SetPosition 移动棋子
-func (c *Piece) SetPosition(x int, y int, size float32, addAnimation bool) {
+func (c *Piece) SetPosition(x int, y int, addAnimation bool) {
 	if addAnimation {
-		canvas.NewPositionAnimation(fyne.Position{X: Border + float32(c.X)*Cell, Y: Border + float32(c.Y)*Cell}, fyne.Position{X: Border + float32(x)*Cell, Y: Border + float32(y)*Cell}, time.Millisecond*500, c.Move).Start()
+		canvas.NewPositionAnimation(
+			fyne.Position{X: Border + float32(c.X)*Cell - PieceSize/2, Y: Border + float32(c.Y)*Cell - PieceSize/2},
+			fyne.Position{X: Border + float32(x)*Cell - PieceSize/2, Y: Border + float32(y)*Cell - PieceSize/2},
+			time.Millisecond*500,
+			c.Move).Start()
 	} else {
 		c.Move(fyne.Position{
-			X: Border + float32(x)*Cell - size/2,
-			Y: Border + float32(y)*Cell - size/2,
+			X: Border + float32(x)*Cell - PieceSize/2,
+			Y: Border + float32(y)*Cell - PieceSize/2,
 		})
 	}
 	c.X = x
