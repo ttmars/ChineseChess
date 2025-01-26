@@ -9,11 +9,14 @@ import (
 	"time"
 )
 
-var Cell float32 = 50            // 棋盘格子大小
-var Border float32 = 40          // 棋盘边框大小
-var LineStrokeWidth float32 = 1  // 棋盘线条大小
-var PieceSize float32 = 45       // 棋子大小
-var PieceStrokeWidth float32 = 3 // 棋子边框大小
+var (
+	CellSize        float32 = 50 // 棋盘格子大小
+	BorderSize      float32 = 40 // 棋盘边框大小
+	LineStrokeWidth float32 = 1  // 棋盘线条大小
+
+	PieceSize        float32 = 45 // 棋子大小
+	PieceStrokeWidth float32 = 3  // 棋子边框大小
+)
 
 type Chess struct {
 	App fyne.App
@@ -134,42 +137,42 @@ func (chess *Chess) DrawPiece() *fyne.Container {
 
 // DrawLine 画棋盘
 func (chess *Chess) DrawLine() *fyne.Container {
-	hor0 := NewLine(Border, Border+Cell*0, Border+Cell*8, Border+Cell*0, LineStrokeWidth*2, color.Black)
-	hor1 := NewLine(Border, Border+Cell*1, Border+Cell*8, Border+Cell*1, LineStrokeWidth, color.Black)
-	hor2 := NewLine(Border, Border+Cell*2, Border+Cell*8, Border+Cell*2, LineStrokeWidth, color.Black)
-	hor3 := NewLine(Border, Border+Cell*3, Border+Cell*8, Border+Cell*3, LineStrokeWidth, color.Black)
-	hor4 := NewLine(Border, Border+Cell*4, Border+Cell*8, Border+Cell*4, LineStrokeWidth, color.Black)
-	hor5 := NewLine(Border, Border+Cell*5, Border+Cell*8, Border+Cell*5, LineStrokeWidth, color.Black)
-	hor6 := NewLine(Border, Border+Cell*6, Border+Cell*8, Border+Cell*6, LineStrokeWidth, color.Black)
-	hor7 := NewLine(Border, Border+Cell*7, Border+Cell*8, Border+Cell*7, LineStrokeWidth, color.Black)
-	hor8 := NewLine(Border, Border+Cell*8, Border+Cell*8, Border+Cell*8, LineStrokeWidth, color.Black)
-	hor9 := NewLine(Border, Border+Cell*9, Border+Cell*8, Border+Cell*9, LineStrokeWidth*2, color.Black)
+	hor0 := NewLine(BorderSize, BorderSize+CellSize*0, BorderSize+CellSize*8, BorderSize+CellSize*0, LineStrokeWidth*2, color.Black)
+	hor1 := NewLine(BorderSize, BorderSize+CellSize*1, BorderSize+CellSize*8, BorderSize+CellSize*1, LineStrokeWidth, color.Black)
+	hor2 := NewLine(BorderSize, BorderSize+CellSize*2, BorderSize+CellSize*8, BorderSize+CellSize*2, LineStrokeWidth, color.Black)
+	hor3 := NewLine(BorderSize, BorderSize+CellSize*3, BorderSize+CellSize*8, BorderSize+CellSize*3, LineStrokeWidth, color.Black)
+	hor4 := NewLine(BorderSize, BorderSize+CellSize*4, BorderSize+CellSize*8, BorderSize+CellSize*4, LineStrokeWidth, color.Black)
+	hor5 := NewLine(BorderSize, BorderSize+CellSize*5, BorderSize+CellSize*8, BorderSize+CellSize*5, LineStrokeWidth, color.Black)
+	hor6 := NewLine(BorderSize, BorderSize+CellSize*6, BorderSize+CellSize*8, BorderSize+CellSize*6, LineStrokeWidth, color.Black)
+	hor7 := NewLine(BorderSize, BorderSize+CellSize*7, BorderSize+CellSize*8, BorderSize+CellSize*7, LineStrokeWidth, color.Black)
+	hor8 := NewLine(BorderSize, BorderSize+CellSize*8, BorderSize+CellSize*8, BorderSize+CellSize*8, LineStrokeWidth, color.Black)
+	hor9 := NewLine(BorderSize, BorderSize+CellSize*9, BorderSize+CellSize*8, BorderSize+CellSize*9, LineStrokeWidth*2, color.Black)
 
 	// 垂直线
-	ver0 := NewLine(Border, Border, Border, Border+Cell*9, LineStrokeWidth*2, color.Black)
-	ver8 := NewLine(Border+Cell*8, Border, Border+Cell*8, Border+Cell*9, LineStrokeWidth*2, color.Black)
+	ver0 := NewLine(BorderSize, BorderSize, BorderSize, BorderSize+CellSize*9, LineStrokeWidth*2, color.Black)
+	ver8 := NewLine(BorderSize+CellSize*8, BorderSize, BorderSize+CellSize*8, BorderSize+CellSize*9, LineStrokeWidth*2, color.Black)
 
-	ver1 := NewLine(Border+Cell*1, Border, Border+Cell*1, Border+Cell*4, LineStrokeWidth, color.Black)
-	ver2 := NewLine(Border+Cell*2, Border, Border+Cell*2, Border+Cell*4, LineStrokeWidth, color.Black)
-	ver3 := NewLine(Border+Cell*3, Border, Border+Cell*3, Border+Cell*4, LineStrokeWidth, color.Black)
-	ver4 := NewLine(Border+Cell*4, Border, Border+Cell*4, Border+Cell*4, LineStrokeWidth, color.Black)
-	ver5 := NewLine(Border+Cell*5, Border, Border+Cell*5, Border+Cell*4, LineStrokeWidth, color.Black)
-	ver6 := NewLine(Border+Cell*6, Border, Border+Cell*6, Border+Cell*4, LineStrokeWidth, color.Black)
-	ver7 := NewLine(Border+Cell*7, Border, Border+Cell*7, Border+Cell*4, LineStrokeWidth, color.Black)
+	ver1 := NewLine(BorderSize+CellSize*1, BorderSize, BorderSize+CellSize*1, BorderSize+CellSize*4, LineStrokeWidth, color.Black)
+	ver2 := NewLine(BorderSize+CellSize*2, BorderSize, BorderSize+CellSize*2, BorderSize+CellSize*4, LineStrokeWidth, color.Black)
+	ver3 := NewLine(BorderSize+CellSize*3, BorderSize, BorderSize+CellSize*3, BorderSize+CellSize*4, LineStrokeWidth, color.Black)
+	ver4 := NewLine(BorderSize+CellSize*4, BorderSize, BorderSize+CellSize*4, BorderSize+CellSize*4, LineStrokeWidth, color.Black)
+	ver5 := NewLine(BorderSize+CellSize*5, BorderSize, BorderSize+CellSize*5, BorderSize+CellSize*4, LineStrokeWidth, color.Black)
+	ver6 := NewLine(BorderSize+CellSize*6, BorderSize, BorderSize+CellSize*6, BorderSize+CellSize*4, LineStrokeWidth, color.Black)
+	ver7 := NewLine(BorderSize+CellSize*7, BorderSize, BorderSize+CellSize*7, BorderSize+CellSize*4, LineStrokeWidth, color.Black)
 
-	ver11 := NewLine(Border+Cell*1, Border+Cell*5, Border+Cell*1, Border+Cell*9, LineStrokeWidth, color.Black)
-	ver22 := NewLine(Border+Cell*2, Border+Cell*5, Border+Cell*2, Border+Cell*9, LineStrokeWidth, color.Black)
-	ver33 := NewLine(Border+Cell*3, Border+Cell*5, Border+Cell*3, Border+Cell*9, LineStrokeWidth, color.Black)
-	ver44 := NewLine(Border+Cell*4, Border+Cell*5, Border+Cell*4, Border+Cell*9, LineStrokeWidth, color.Black)
-	ver55 := NewLine(Border+Cell*5, Border+Cell*5, Border+Cell*5, Border+Cell*9, LineStrokeWidth, color.Black)
-	ver66 := NewLine(Border+Cell*6, Border+Cell*5, Border+Cell*6, Border+Cell*9, LineStrokeWidth, color.Black)
-	ver77 := NewLine(Border+Cell*7, Border+Cell*5, Border+Cell*7, Border+Cell*9, LineStrokeWidth, color.Black)
+	ver11 := NewLine(BorderSize+CellSize*1, BorderSize+CellSize*5, BorderSize+CellSize*1, BorderSize+CellSize*9, LineStrokeWidth, color.Black)
+	ver22 := NewLine(BorderSize+CellSize*2, BorderSize+CellSize*5, BorderSize+CellSize*2, BorderSize+CellSize*9, LineStrokeWidth, color.Black)
+	ver33 := NewLine(BorderSize+CellSize*3, BorderSize+CellSize*5, BorderSize+CellSize*3, BorderSize+CellSize*9, LineStrokeWidth, color.Black)
+	ver44 := NewLine(BorderSize+CellSize*4, BorderSize+CellSize*5, BorderSize+CellSize*4, BorderSize+CellSize*9, LineStrokeWidth, color.Black)
+	ver55 := NewLine(BorderSize+CellSize*5, BorderSize+CellSize*5, BorderSize+CellSize*5, BorderSize+CellSize*9, LineStrokeWidth, color.Black)
+	ver66 := NewLine(BorderSize+CellSize*6, BorderSize+CellSize*5, BorderSize+CellSize*6, BorderSize+CellSize*9, LineStrokeWidth, color.Black)
+	ver77 := NewLine(BorderSize+CellSize*7, BorderSize+CellSize*5, BorderSize+CellSize*7, BorderSize+CellSize*9, LineStrokeWidth, color.Black)
 
 	// 九宫线
-	slash1 := NewLine(Border+Cell*3, Border, Border+Cell*5, Border+Cell*2, LineStrokeWidth*0.5, color.Black)
-	slash2 := NewLine(Border+Cell*5, Border, Border+Cell*3, Border+Cell*2, LineStrokeWidth*0.5, color.Black)
-	slash3 := NewLine(Border+Cell*3, Border+Cell*9, Border+Cell*5, Border+Cell*7, LineStrokeWidth*0.5, color.Black)
-	slash4 := NewLine(Border+Cell*3, Border+Cell*7, Border+Cell*5, Border+Cell*9, LineStrokeWidth*0.5, color.Black)
+	slash1 := NewLine(BorderSize+CellSize*3, BorderSize, BorderSize+CellSize*5, BorderSize+CellSize*2, LineStrokeWidth*0.5, color.Black)
+	slash2 := NewLine(BorderSize+CellSize*5, BorderSize, BorderSize+CellSize*3, BorderSize+CellSize*2, LineStrokeWidth*0.5, color.Black)
+	slash3 := NewLine(BorderSize+CellSize*3, BorderSize+CellSize*9, BorderSize+CellSize*5, BorderSize+CellSize*7, LineStrokeWidth*0.5, color.Black)
+	slash4 := NewLine(BorderSize+CellSize*3, BorderSize+CellSize*7, BorderSize+CellSize*5, BorderSize+CellSize*9, LineStrokeWidth*0.5, color.Black)
 
 	return container.NewWithoutLayout(
 		hor0, hor1, hor2, hor3, hor4, hor5, hor6, hor7, hor8, hor9,

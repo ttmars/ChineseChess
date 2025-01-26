@@ -13,7 +13,7 @@ func main() {
 	myWindow := myApp.NewWindow("Chinese Chess Piece")
 	myWindow.CenterOnScreen()
 
-	chess.Cell = 50
+	chess.CellSize = 50
 	chessPiece := chess.NewPiece("帥", color.Black, 3, 3, 60, 60)
 	chessPiece.SetPosition(0, 0, 60, true)
 

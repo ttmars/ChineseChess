@@ -39,14 +39,14 @@ func NewPiece(name string, fontColor color.Color, x, y int, w, h float32) *Piece
 func (c *Piece) SetPosition(x int, y int, addAnimation bool) {
 	if addAnimation {
 		canvas.NewPositionAnimation(
-			fyne.Position{X: Border + float32(c.X)*Cell - PieceSize/2, Y: Border + float32(c.Y)*Cell - PieceSize/2},
-			fyne.Position{X: Border + float32(x)*Cell - PieceSize/2, Y: Border + float32(y)*Cell - PieceSize/2},
+			fyne.Position{X: BorderSize + float32(c.X)*CellSize - PieceSize/2, Y: BorderSize + float32(c.Y)*CellSize - PieceSize/2},
+			fyne.Position{X: BorderSize + float32(x)*CellSize - PieceSize/2, Y: BorderSize + float32(y)*CellSize - PieceSize/2},
 			time.Millisecond*500,
 			c.Move).Start()
 	} else {
 		c.Move(fyne.Position{
-			X: Border + float32(x)*Cell - PieceSize/2,
-			Y: Border + float32(y)*Cell - PieceSize/2,
+			X: BorderSize + float32(x)*CellSize - PieceSize/2,
+			Y: BorderSize + float32(y)*CellSize - PieceSize/2,
 		})
 	}
 	c.X = x
