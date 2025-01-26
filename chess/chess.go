@@ -14,8 +14,10 @@ var (
 	BorderSize      float32 = 40 // 棋盘边框大小
 	LineStrokeWidth float32 = 1  // 棋盘线条大小
 
-	PieceSize        float32 = 45 // 棋子大小
+	PieceSize        float32 = 44 // 棋子大小
 	PieceStrokeWidth float32 = 3  // 棋子边框大小
+
+	PitchLength float32 = 10 // 选中框长度
 )
 
 type Chess struct {
@@ -33,6 +35,10 @@ type Chess struct {
 
 	// 棋子
 	Piece [9][10]*Piece
+
+	// 选中
+	StartPitch *Pitch
+	EndPitch   *Pitch
 }
 
 func NewChess() *Chess {
@@ -60,15 +66,16 @@ func (chess *Chess) CreateChessBoard() {
 	ChessBoard := canvas.NewRectangle(Yellow)
 	ChessBoard.Resize(fyne.NewSize(700, 600))
 
-	// 棋盘
-	LineContainer := chess.DrawLine()
-
-	// 棋子
-	PieceContainer := chess.DrawPiece()
+	LineContainer := chess.DrawLine()   // 棋盘
+	PieceContainer := chess.DrawPiece() // 棋子
+	PitchContainer := chess.DrawPitch() // 选中框
 
 	// 容器
 	ChessContainer := container.NewWithoutLayout(
-		ChessBoard, LineContainer, PieceContainer,
+		ChessBoard,
+		LineContainer,
+		PieceContainer,
+		PitchContainer,
 	)
 	ChessContainer.Resize(fyne.NewSize(700, 600))
 	ChessContainer.Move(fyne.NewPos(300, 0))
@@ -86,6 +93,15 @@ func (chess *Chess) CreateChatBoard() {
 
 	chess.ChatBoard = ChatBoard
 	chess.ChatContainer = ChatContainer
+}
+
+// DrawPitch 画选中
+func (chess *Chess) DrawPitch() *fyne.Container {
+	chess.StartPitch = NewPitch(Blue, 0, 0, PitchLength, LineStrokeWidth*2)
+	chess.EndPitch = NewPitch(Blue, 0, 0, PitchLength, LineStrokeWidth*2)
+	chess.StartPitch.Hide()
+	chess.EndPitch.Hide()
+	return container.NewWithoutLayout(chess.StartPitch, chess.EndPitch)
 }
 
 // DrawPiece 画棋子
@@ -128,6 +144,7 @@ func (chess *Chess) DrawPiece() *fyne.Container {
 	for _, v := range chess.Piece {
 		for _, vv := range v {
 			if vv != nil {
+				vv.chess = chess
 				Pieces = append(Pieces, vv)
 			}
 		}

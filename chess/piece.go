@@ -1,7 +1,6 @@
 package chess
 
 import (
-	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/widget"
@@ -16,6 +15,7 @@ type Piece struct {
 	FontColor color.Color
 	W, H      float32 // 大小
 	X, Y      int     // 当前坐标
+	chess     *Chess
 }
 
 // NewPiece 初始化一个棋子
@@ -95,10 +95,10 @@ func (r *chessPieceRenderer) Destroy() {}
 // Tapped 实现 Tappable 接口
 func (c *Piece) Tapped(event *fyne.PointEvent) {
 	// 处理左键点击事件
-	fmt.Println("左键点击", c.Name)
+	c.chess.StartPitch.SetPosition(c.X, c.Y)
 }
 
-func (c *Piece) TappedSecondary(event *fyne.PointEvent) {
-	// 处理右键点击事件
-	fmt.Println("右键点击", c.Name)
-}
+//func (c *Piece) TappedSecondary(event *fyne.PointEvent) {
+//	// 处理右键点击事件
+//	fmt.Println("右键点击", c.Name)
+//}
